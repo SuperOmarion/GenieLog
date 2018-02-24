@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="com.tuto.superomarion.smartparking.Inscription"
+        android:background="@drawable/background">
+
+        <TableLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context="com.upmc.superomarion.etumarche.Inscription"
+            >
+            <ImageView android:src="@drawable/icone"
+                android:layout_width="wrap_content"
+                android:layout_height="120dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="24dp"
+                android:layout_marginTop="12dp" />
+
+
+            <EditText android:id="@+id/name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="textCapWords"
+                android:hint="Nom"
+                android:layout_marginTop="8dp" />
+
+
+            <EditText android:id="@+id/tel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="phone"
+                android:hint="Télephone"
+                android:layout_marginTop="8dp" />
+
+            <EditText android:id="@+id/password"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"
+                android:hint="Mot de passe"
+                android:layout_marginTop="8dp" />
+
+            <EditText android:id="@+id/passwordMatch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"
+                android:hint="Retapez le mot de passe"
+                android:layout_marginTop="8dp" />
+
+            <Button
+                android:id="@+id/signup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="12dp"
+                android:text="Inscription"
+                android:textColor="#FFF"
+                android:textStyle="bold"
+                android:height="70dp"
+                android:textSize="20dp"
+                android:backgroundTint="@color/colorPrimary"
+                android:layout_marginTop="20dp" />
+
+            <TextView android:id="@+id/link_login"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Vous êtes deja membre? Vous voulez vous connecter"
+                android:gravity="center"
+                android:textSize="16dp"
+                android:textColor="#000000"
+                android:textStyle="bold"
+                android:layout_marginTop="20dp" />
+            <Button
+                android:id="@+id/login"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:height="70dp"
+                android:layout_marginBottom="14dp"
+                android:layout_marginTop="10dp"
+                android:backgroundTint="@color/colorAccent"
+                android:text="Connexion"
+                android:gravity="center"
+                android:textSize="20dp"
+                android:textColor="#FFF"
+                android:textStyle="bold"
+                />
+
+        </TableLayout>
+
+</ScrollView>
+
+
