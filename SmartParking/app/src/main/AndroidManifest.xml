@@ -37,7 +37,8 @@
         </activity>
         <activity
             android:name=".Connexion"
-            android:label="@string/title_activity_connexion"></activity>
+            android:label="@string/title_activity_connexion" />
+        <activity android:name=".Inscription"></activity>
     </application>
 
 </manifest>
