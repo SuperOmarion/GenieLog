@@ -2,4 +2,6 @@
     <string name="app_name">SmartParking</string>
     <string name="yes">OUI</string>
     <string name="next">Continuer</string>
+    <string name="title_activity_connexion">Connexion</string>
+
 </resources>
