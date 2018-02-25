@@ -29,7 +29,7 @@
                 xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                app:cardBackgroundColor="@color/txt_font"
+                app:cardBackgroundColor="#79E"
                 app:cardCornerRadius="5dp"
                 app:cardElevation="3dp">
 

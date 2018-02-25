@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class RegisterRequest extends StringRequest {
-    private static final String REGISTER_REQUEST_URL = "https://aitslimane554.000webhostapp.com/Register.php";
+    private static final String REGISTER_REQUEST_URL = "";
     private Map<String, String> params;
 
     public RegisterRequest(String name, String tel, String  password , Response.Listener<String> listener) {
@@ -15,7 +15,7 @@ public class RegisterRequest extends StringRequest {
         params = new HashMap<>();
         params.put("name", name);
         params.put("telephone", tel);
-        params.put("mot_de_passe", password);;
+        params.put("mot_de_passe", password);
 
     }
     @Override

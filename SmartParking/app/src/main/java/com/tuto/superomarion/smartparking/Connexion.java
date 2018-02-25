@@ -13,6 +13,13 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -145,12 +152,45 @@ public class Connexion extends AppCompatActivity implements View.OnClickListener
         progressDialog.setMessage("Authentication...");
         progressDialog.show();
 
+        final Response.Listener<String> responseListener = new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONObject jsonResponse = new JSONObject(response);
+                    boolean success = jsonResponse.getBoolean("success");
+                    if (success) {
+                        onLoginSuccess();
+                        progressDialog.dismiss();
+                        logged = true;
+                        //Intent intent = new Intent(Connexion.this, Dashboard.class);
+                       // intent.putExtra("user", nom);
+                      //  startActivity(intent);
+                        //finish();
+
+                    } else {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(Connexion.this);
+                        builder.setMessage("Le compte n'existe pas")
+                                .setNegativeButton("Retry", null)
+                                .create()
+                                .show();
+                        progressDialog.dismiss();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+
+        ConnectionRequest connectionRequest = new ConnectionRequest(nom,passw,responseListener);
+        final RequestQueue queue = Volley.newRequestQueue(Connexion.this);
+        queue.add(connectionRequest);
+
         new android.os.Handler().postDelayed(
                 new Runnable() {
                     public void run() {
 
                         progressDialog.dismiss();
-                        //queue.stop();
+                        queue.stop();
                         if (logged == false){
                             Toast.makeText(Connexion.this, "Verifiez votre connexion et réessayez", Toast.LENGTH_LONG).show();
                         }

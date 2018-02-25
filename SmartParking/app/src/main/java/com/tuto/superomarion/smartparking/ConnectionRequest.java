@@ -12,7 +12,7 @@ import java.util.Map;
  */
 
 public class ConnectionRequest extends StringRequest {
-    private static final String REGISTER_REQUEST_URL = "https://aitslimane554.000webhostapp.com/Connect.php";
+    private static final String REGISTER_REQUEST_URL = "";
     private Map<String, String> params;
 
     public ConnectionRequest(String name, String password, Response.Listener<String> listener) {
