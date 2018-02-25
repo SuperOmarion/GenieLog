@@ -16,63 +16,74 @@
         android:layout_height="match_parent">
 
 
-        <TextView
-            android:id="@+id/user"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp"
-            android:layout_marginTop="10dp"
-            android:textStyle="bold"
-            android:textSize="23dp"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:textColor="#000"
-            android:text="heol"/>
-
 
         <android.support.v7.widget.CardView
             xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto"
             xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_height="120dp"
             app:cardBackgroundColor="#79E"
             app:cardCornerRadius="5dp"
             app:cardElevation="3dp">
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="horizontal">
 
 
-                    <android.support.design.widget.TextInputLayout
-                        android:layout_width="300dp"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
-                        android:id="@+id/textInputLayout">
-
-                        <AutoCompleteTextView
-                            android:id="@+id/name"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:hint="Chercher un parking"
-                            android:inputType="text"
-                            android:maxLines="1" />
-
-
-                    </android.support.design.widget.TextInputLayout>
-
-                <android.support.design.widget.FloatingActionButton
-                    android:id="@+id/search"
+                <TextView
+                    android:id="@+id/user"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/search"
-                    app:elevation="4dp"
-                    android:layout_centerVertical="true"
-                    android:layout_toEndOf="@+id/textInputLayout" />
+                    android:layout_above="@+id/textInputLayout"
+                    android:layout_alignStart="@+id/textInputLayout"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="19dp"
+                    android:layout_marginStart="16dp"
+                    android:gravity="center"
+                    android:text="heol"
+                    android:textColor="#000"
+                    android:textSize="23dp"
+                    android:textStyle="bold" />
 
+                <ImageView
+                    android:id="@+id/disconnect"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/btnround"
+                    android:src="@drawable/logout"
+                    android:layout_alignTop="@+id/user"
+                    android:layout_alignEnd="@+id/textInputLayout" />
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/textInputLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp">
+
+                    <AutoCompleteTextView
+                        android:id="@+id/park"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_toStartOf="@+id/disconnect"
+                        android:hint="Chercher un parking"
+                        android:inputType="text"
+                        android:maxLines="1" />
+
+                </android.support.design.widget.TextInputLayout>
             </RelativeLayout>
+
+
         </android.support.v7.widget.CardView>
+
+
+
 
     </TableLayout>
 </ScrollView>

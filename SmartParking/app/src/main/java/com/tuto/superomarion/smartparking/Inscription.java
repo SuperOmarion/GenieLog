@@ -104,12 +104,9 @@ public class Inscription extends AppCompatActivity implements View.OnClickListen
     public void signup() {
 
         if (!validate()) {
-            onSignupFailed();
             return;
         }
 
-
-        onSignupSuccess();
         saveContact();
         iden = nom.getText().toString();
         phone = tel.getText().toString();
@@ -129,7 +126,6 @@ public class Inscription extends AppCompatActivity implements View.OnClickListen
                     JSONObject jsonResponse = new JSONObject(response);
                     boolean success = jsonResponse.getBoolean("success");
                     if (success) {
-                        onSignupSuccess();
                         progressDialog.dismiss();
                         logged = true;
                         Intent intent = new Intent(Inscription.this, Dashboard.class);
@@ -169,17 +165,6 @@ public class Inscription extends AppCompatActivity implements View.OnClickListen
 
                     }
                 }, 5000);
-    }
-
-
-    public void onSignupSuccess() {
-        btnSign.setEnabled(false);
-    }
-
-    public void onSignupFailed() {
-
-
-        btnSign.setEnabled(true);
     }
 
     public boolean validate() {

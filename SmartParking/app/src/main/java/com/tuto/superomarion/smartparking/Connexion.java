@@ -23,6 +23,7 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.InputStreamReader;
 
 
@@ -52,11 +53,9 @@ public class Connexion extends AppCompatActivity implements View.OnClickListener
         btnConnect.setOnClickListener(this);
         btnNew.setOnClickListener(this);
         show.setOnClickListener(this);
-        readnConnect();
-        if(nom != null && pass != null && ConnexionInternet.isConnectedInternet(Connexion.this)){
-            name.setText(nom);
-            pass.setText(passw);
-            login();
+
+        if(ConnexionInternet.isConnectedInternet(Connexion.this)){
+            readnConnect();
         }
     }
 
@@ -88,14 +87,9 @@ public class Connexion extends AppCompatActivity implements View.OnClickListener
                 if(ConnexionInternet.isConnectedInternet(Connexion.this)) {
                     nom = name.getText().toString().trim().toLowerCase();
                     passw = pass.getText().toString().trim();
-                    if (!validate()) {
-                        onLoginFailed();
-
-                    }else {
-                        onLoginSuccess();
+                    if (validate()) {
                         login();
                     }
-
                 }
                 else {
                     Toast.makeText(getBaseContext(), "Verifiez votre connexion internet", Toast.LENGTH_LONG).show();
@@ -133,16 +127,44 @@ public class Connexion extends AppCompatActivity implements View.OnClickListener
             }
             fin.close();
             inputStream.close();
-            String[] Contact = sbuilder.toString().split("/");
-            nom = Contact[0];
-            passw = Contact[1];
+            if(sbuilder.toString().length()>8){
+                String[] Contact = sbuilder.toString().split("/");
+                nom = Contact[0];
+                passw = Contact[1];
+
+                name.setText(nom);
+                pass.setText(passw);
+                login();
+            }
             //Toast.makeText(Connexion.this,nom+"   " + passw,Toast.LENGTH_LONG).show();
         }catch (java.io.IOException e){
             e.printStackTrace();
 
         }
     }
+    public void saveContact() {
+        try {
+            File file = new File(getCacheDir(), Storage);
+            FileOutputStream fos = new FileOutputStream(file);
+            String Contact = nom.trim()+"/"+passw.trim();
+            fos.write(Contact.getBytes());
+            fos.close();
+            Toast.makeText(Connexion.this,Contact,Toast.LENGTH_LONG).show();
+        } catch (java.io.IOException e) {
+            e.printStackTrace();
+        }
+    }
 
+    public void deleteContact() {
+        try {
+            File file = new File(getCacheDir(), Storage);
+            FileOutputStream fos = new FileOutputStream(file);
+            fos.write("".getBytes());
+            fos.close();
+        } catch (java.io.IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     public void login() {
 
@@ -162,9 +184,10 @@ public class Connexion extends AppCompatActivity implements View.OnClickListener
                     JSONObject jsonResponse = new JSONObject(response);
                     boolean success = jsonResponse.getBoolean("success");
                     if (success) {
-                        onLoginSuccess();
+
                         progressDialog.dismiss();
                         logged = true;
+                        saveContact();
                         //Toast.makeText(getBaseContext(), "Verifiez  " + success , Toast.LENGTH_LONG).show();
                         Intent intent = new Intent(Connexion.this, Dashboard.class);
                         intent.putExtra("user", nom);
@@ -172,6 +195,8 @@ public class Connexion extends AppCompatActivity implements View.OnClickListener
                         finish();
 
                     } else {
+                        deleteContact();
+                        pass.setText("");
                         AlertDialog.Builder builder = new AlertDialog.Builder(Connexion.this);
                         builder.setMessage("Le compte n'existe pas\nVotre Nom ou Mot de passe est incorrecte")
                                 .setNegativeButton("Retry", null)
@@ -205,14 +230,6 @@ public class Connexion extends AppCompatActivity implements View.OnClickListener
                 }, 15000);
 
 
-    }
-
-    public void onLoginSuccess() {
-        btnConnect.setEnabled(false);
-    }
-
-    public void onLoginFailed() {
-        btnConnect.setEnabled(true);
     }
 
     public boolean validate() {
