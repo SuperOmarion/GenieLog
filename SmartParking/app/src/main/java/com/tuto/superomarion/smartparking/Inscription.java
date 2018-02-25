@@ -132,10 +132,10 @@ public class Inscription extends AppCompatActivity implements View.OnClickListen
                         onSignupSuccess();
                         progressDialog.dismiss();
                         logged = true;
-                        /*Intent intent = new Intent(Inscription.this, Dashboard.class);
+                        Intent intent = new Intent(Inscription.this, Dashboard.class);
                         intent.putExtra("user", iden);
                         startActivity(intent);
-                        finish();*/
+                        finish();
 
                     } else {
                         AlertDialog.Builder builder = new AlertDialog.Builder(Inscription.this);

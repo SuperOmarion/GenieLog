@@ -165,11 +165,11 @@ public class Connexion extends AppCompatActivity implements View.OnClickListener
                         onLoginSuccess();
                         progressDialog.dismiss();
                         logged = true;
-                        Toast.makeText(getBaseContext(), "Verifiez  " + success , Toast.LENGTH_LONG).show();
-                        //Intent intent = new Intent(Connexion.this, Dashboard.class);
-                       // intent.putExtra("user", nom);
-                      //  startActivity(intent);
-                        //finish();
+                        //Toast.makeText(getBaseContext(), "Verifiez  " + success , Toast.LENGTH_LONG).show();
+                        Intent intent = new Intent(Connexion.this, Dashboard.class);
+                        intent.putExtra("user", nom);
+                        startActivity(intent);
+                        finish();
 
                     } else {
                         AlertDialog.Builder builder = new AlertDialog.Builder(Connexion.this);
