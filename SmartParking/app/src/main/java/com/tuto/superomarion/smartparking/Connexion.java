@@ -149,7 +149,7 @@ public class Connexion extends AppCompatActivity implements View.OnClickListener
             String Contact = nom.trim()+"/"+passw.trim();
             fos.write(Contact.getBytes());
             fos.close();
-            Toast.makeText(Connexion.this,Contact,Toast.LENGTH_LONG).show();
+            //Toast.makeText(Connexion.this,Contact,Toast.LENGTH_LONG).show();
         } catch (java.io.IOException e) {
             e.printStackTrace();
         }
@@ -213,7 +213,7 @@ public class Connexion extends AppCompatActivity implements View.OnClickListener
         ConnectionRequest connectionRequest = new ConnectionRequest(nom,passw,responseListener);
         final RequestQueue queue = Volley.newRequestQueue(Connexion.this);
         queue.add(connectionRequest);
-        Toast.makeText(getBaseContext(), "Verifiez  " + nom +""+ passw , Toast.LENGTH_LONG).show();
+       // Toast.makeText(getBaseContext(), "Verifiez  " + nom +""+ passw , Toast.LENGTH_LONG).show();
         new android.os.Handler().postDelayed(
                 new Runnable() {
                     public void run() {

@@ -164,7 +164,7 @@ public class Inscription extends AppCompatActivity implements View.OnClickListen
                         logged = false;
 
                     }
-                }, 5000);
+                }, 15000);
     }
 
     public boolean validate() {
