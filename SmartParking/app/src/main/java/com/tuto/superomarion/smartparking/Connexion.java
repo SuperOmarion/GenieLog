@@ -158,7 +158,7 @@ public class Connexion extends AppCompatActivity implements View.OnClickListener
 
 
                     }
-                }, 15000);
+                }, 5000);
 
 
     }
