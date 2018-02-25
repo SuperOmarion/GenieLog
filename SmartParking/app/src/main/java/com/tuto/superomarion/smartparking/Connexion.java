@@ -54,6 +54,8 @@ public class Connexion extends AppCompatActivity implements View.OnClickListener
         show.setOnClickListener(this);
         readnConnect();
         if(nom != null && pass != null && ConnexionInternet.isConnectedInternet(Connexion.this)){
+            name.setText(nom);
+            pass.setText(passw);
             login();
         }
     }
@@ -143,6 +145,7 @@ public class Connexion extends AppCompatActivity implements View.OnClickListener
 
 
     public void login() {
+
         progressDialog = new ProgressDialog(Connexion.this,
                 R.style.MyTheme);
         progressDialog.setIndeterminate(true);
@@ -162,6 +165,7 @@ public class Connexion extends AppCompatActivity implements View.OnClickListener
                         onLoginSuccess();
                         progressDialog.dismiss();
                         logged = true;
+                        Toast.makeText(getBaseContext(), "Verifiez  " + success , Toast.LENGTH_LONG).show();
                         //Intent intent = new Intent(Connexion.this, Dashboard.class);
                        // intent.putExtra("user", nom);
                       //  startActivity(intent);
@@ -169,7 +173,7 @@ public class Connexion extends AppCompatActivity implements View.OnClickListener
 
                     } else {
                         AlertDialog.Builder builder = new AlertDialog.Builder(Connexion.this);
-                        builder.setMessage("Le compte n'existe pas")
+                        builder.setMessage("Le compte n'existe pas\nVotre Nom ou Mot de passe est incorrecte")
                                 .setNegativeButton("Retry", null)
                                 .create()
                                 .show();
@@ -184,7 +188,7 @@ public class Connexion extends AppCompatActivity implements View.OnClickListener
         ConnectionRequest connectionRequest = new ConnectionRequest(nom,passw,responseListener);
         final RequestQueue queue = Volley.newRequestQueue(Connexion.this);
         queue.add(connectionRequest);
-
+        Toast.makeText(getBaseContext(), "Verifiez  " + nom +""+ passw , Toast.LENGTH_LONG).show();
         new android.os.Handler().postDelayed(
                 new Runnable() {
                     public void run() {
@@ -198,7 +202,7 @@ public class Connexion extends AppCompatActivity implements View.OnClickListener
 
 
                     }
-                }, 5000);
+                }, 15000);
 
 
     }
