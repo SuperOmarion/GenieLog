@@ -188,10 +188,19 @@ public class Connexion extends AppCompatActivity implements View.OnClickListener
                         progressDialog.dismiss();
                         logged = true;
                         saveContact();
-                        //Toast.makeText(getBaseContext(), "Verifiez  " + success , Toast.LENGTH_LONG).show();
-                        Intent intent = new Intent(Connexion.this, Dashboard.class);
-                        intent.putExtra("user", nom);
-                        startActivity(intent);
+                        String role = jsonResponse.getString("role");
+                        if(role.equals("1")){
+
+                            Intent intent = new Intent(Connexion.this, Dashboard.class);
+                            intent.putExtra("user", nom);
+                            startActivity(intent);
+
+                        }else if(role.equals("2")){
+                            Intent intent = new Intent(Connexion.this, Gestionnaire.class);
+                            intent.putExtra("user", nom);
+                            startActivity(intent);
+                        }
+
                         finish();
 
                     } else {

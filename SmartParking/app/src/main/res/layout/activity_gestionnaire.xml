@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="fill_parent"
+android:layout_height="fill_parent"
+tools:context="com.tuto.superomarion.smartparking.Gestionnaire"
+android:background="@drawable/background">
+
+<RelativeLayout
+    android:layout_width="wrap_content"
+    android:layout_height="600dp"
+    android:padding="5dp">
+
+
+    <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/cardView"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        app:cardBackgroundColor="#79E"
+        app:cardCornerRadius="5dp"
+        app:cardElevation="3dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+
+            <TextView
+                android:id="@+id/user"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="16dp"
+                android:gravity="center"
+                android:text="heol"
+                android:textColor="#000"
+                android:textSize="23dp"
+                android:textStyle="bold"
+                android:layout_alignTop="@+id/disconnect"
+                android:layout_alignParentStart="true" />
+
+            <ImageView
+                android:id="@+id/disconnect"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/btnround"
+                android:src="@drawable/logout"
+                android:layout_marginEnd="12dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="11dp" />
+
+
+        </RelativeLayout>
+
+
+    </android.support.v7.widget.CardView>
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/cardView"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="14dp"
+        android:id="@+id/relativeLayout">
+        <ListView
+            android:id="@+id/list"
+            android:layout_width="match_parent"
+            android:layout_height="350dp"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="14dp"
+            android:layout_weight="12.60" />
+
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/colorAccent"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:textColor="#FFF"
+        android:text="Ajouter un parking"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="38dp" />
+
+
+</RelativeLayout>
+
+</TableLayout>
+

@@ -40,7 +40,8 @@
             android:label="@string/title_activity_connexion" />
         <activity android:name=".Inscription" />
         <activity android:name=".Dashboard" />
-        <activity android:name=".Reservation"></activity>
+        <activity android:name=".Reservation" />
+        <activity android:name=".Gestionnaire"></activity>
     </application>
 
 </manifest>
