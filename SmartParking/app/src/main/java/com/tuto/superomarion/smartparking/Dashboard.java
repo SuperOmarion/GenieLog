@@ -1,11 +1,13 @@
 package com.tuto.superomarion.smartparking;
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
@@ -47,9 +49,27 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
         parkingList = new ArrayList<>();
 
         listv = (ListView) findViewById(R.id.list);
+
+        listv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String[] item =  parent.getAdapter().getItem(position).toString().split(",");
+                String[] selected = item[2].split("=");
+                String parkId = selected[1];
+
+                Toast.makeText(Dashboard.this,position + " " + id + "  " + parkId,Toast.LENGTH_LONG).show();
+                Intent place = new Intent(Dashboard.this, Reservation.class);
+                place.putExtra("id", parkId);
+                startActivity(place);
+
+            }
+
+        });
         getParking();
-        //getJson();
+
     }
+
 
     @Override
     public void onBackPressed() {
@@ -110,11 +130,11 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
             //JSONObject jsonObj = new JSONObject(jsonStr);
 
             // Getting JSON Array node
-            JSONArray contacts = jsonObj.getJSONArray("parkings");
+            JSONArray parkings = jsonObj.getJSONArray("parkings");
 
             // looping through All Contacts
-            for (int i = 0; i < contacts.length(); i++) {
-                JSONObject c = contacts.getJSONObject(i);
+            for (int i = 0; i < parkings.length(); i++) {
+                JSONObject c = parkings.getJSONObject(i);
 
                 String id = c.getString("id");
                 String name = c.getString("nom");
@@ -159,6 +179,13 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
     }
     public void getParking() {
         //Toast.makeText(Dashboard.this,"efsfdfdfd",Toast.LENGTH_LONG).show();
+
+        final ProgressDialog progressDialog = new ProgressDialog(Dashboard.this,R.style.MyTheme);
+        progressDialog.setIndeterminate(true);
+        progressDialog.setMessage("Recherche...");
+        progressDialog.setCancelable(false);
+        progressDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Small);
+        progressDialog.show();
         Response.Listener<String> responseListener = new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -166,6 +193,7 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
                     JSONObject jsonResponse = new JSONObject(response);
                     if (jsonResponse != null) {
                             getJson(jsonResponse);
+                            progressDialog.dismiss();
                             //Toast.makeText(Dashboard.this,"json",Toast.LENGTH_LONG).show();
                     } else {
                         AlertDialog.Builder builder = new AlertDialog.Builder(Dashboard.this);
