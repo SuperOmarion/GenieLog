@@ -68,6 +68,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentBottom="true"
                         android:layout_toStartOf="@+id/disconnect"
+                        style="@style/MyTheme"
                         android:hint="Chercher un parking"
                         android:inputType="text"
                         android:maxLines="1" />

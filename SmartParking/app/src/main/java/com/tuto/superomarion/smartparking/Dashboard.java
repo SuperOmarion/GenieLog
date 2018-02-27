@@ -35,6 +35,8 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
     private ImageView logout;
     private String Storage = "data";
     private ListView listv;
+    private ProgressDialog progressDialog;
+    private boolean get = false;
     ArrayList<HashMap<String, String>> parkingList;
     //private String jsonStr = "{\"parkings\":[{\"id\":\"1\",\"nom\":\"Parking UPMC\",\"ref\":\"0000001\",\"longitude\":\"48.2343545\",\"latitude\":\"2.64343323\",\"nbr_place\":\"100\",\"place_dispo\":\"56\"},{\"id\":\"2\",\"nom\":\"Parking LECLERC\",\"ref\":\"0000002\",\"longitude\":\"48.3455456\",\"latitude\":\"2.75454543\",\"nbr_place\":\"90\",\"place_dispo\":\"13\"},{\"id\":\"3\",\"nom\":\"Parking CARREFOUR\",\"ref\":\"0000003\",\"longitude\":\"48.4455456\",\"latitude\":\"2.65454543\",\"nbr_place\":\"94\",\"place_dispo\":\"23\"}]}";
     @Override
@@ -73,6 +75,7 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
 
     @Override
     public void onBackPressed() {
+        progressDialog.dismiss();
         new AlertDialog.Builder(this)
                 .setTitle("Quiter l'application?")
                 .setMessage("Êtes vous sûr de vouloir quitter l'application?")
@@ -140,7 +143,7 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
                 String name = c.getString("nom");
                 String ref = c.getString("ref");
                 String nbr_place = c.getString("nbr_place");
-
+                String url = c.getString("url");
 
 
 
@@ -150,6 +153,7 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
                 parking.put("id", id);
                 parking.put("nom", name);
                 parking.put("ref", ref);
+                parking.put("url",url);
                 parking.put("nbr_place", nbr_place);
 
                 // adding contact to contact list
@@ -158,8 +162,8 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
 
             ListAdapter adapter = new SimpleAdapter(
                     Dashboard.this, parkingList,
-                    R.layout.list_item, new String[]{"nom",
-                    "nbr_place","ref"}, new int[]{R.id.name,
+                    R.layout.list_item, new String[]{"url","nom",
+                    "nbr_place","ref"}, new int[]{R.id.img,R.id.name,
                     R.id.place, R.id.distance});
 
             listv.setAdapter(adapter);
@@ -180,7 +184,7 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
     public void getParking() {
         //Toast.makeText(Dashboard.this,"efsfdfdfd",Toast.LENGTH_LONG).show();
 
-        final ProgressDialog progressDialog = new ProgressDialog(Dashboard.this,R.style.MyTheme);
+        progressDialog = new ProgressDialog(Dashboard.this,R.style.MyTheme);
         progressDialog.setIndeterminate(true);
         progressDialog.setMessage("Recherche...");
         progressDialog.setCancelable(false);
@@ -193,6 +197,7 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
                     JSONObject jsonResponse = new JSONObject(response);
                     if (jsonResponse != null) {
                             getJson(jsonResponse);
+                            get = true;
                             progressDialog.dismiss();
                             //Toast.makeText(Dashboard.this,"json",Toast.LENGTH_LONG).show();
                     } else {
@@ -213,6 +218,27 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
         final RequestQueue queue = Volley.newRequestQueue(Dashboard.this);
         queue.add(parkingRequest);
         Toast.makeText(Dashboard.this,"queu",Toast.LENGTH_LONG).show();
+
+        new android.os.Handler().postDelayed(
+                new Runnable() {
+                    public void run() {
+                        progressDialog.dismiss();
+                        queue.stop();
+                        if (!get){
+                            new AlertDialog.Builder(Dashboard.this)
+                                    .setTitle("Oups")
+                                    .setMessage("Probleme de connexion Internet")
+                                    .setNegativeButton("Retour",null)
+                                    .setPositiveButton("Réessayer", new DialogInterface.OnClickListener() {
+
+                                        public void onClick(DialogInterface arg0, int arg1) {
+                                            getParking();
+
+                                        }
+                                    }).create().show();
+                        }
+                    }
+                }, 5000);
 
     }
 }

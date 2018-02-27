@@ -41,7 +41,8 @@
         <activity android:name=".Inscription" />
         <activity android:name=".Dashboard" />
         <activity android:name=".Reservation" />
-        <activity android:name=".Gestionnaire"></activity>
+        <activity android:name=".Gestionnaire" />
+        <activity android:name=".Validation"></activity>
     </application>
 
 </manifest>
