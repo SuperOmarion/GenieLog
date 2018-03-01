@@ -37,6 +37,7 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
     private ListView listv;
     private ProgressDialog progressDialog;
     private boolean get = false;
+    private String userid;
     ArrayList<HashMap<String, String>> parkingList;
     //private String jsonStr = "{\"parkings\":[{\"id\":\"1\",\"nom\":\"Parking UPMC\",\"ref\":\"0000001\",\"longitude\":\"48.2343545\",\"latitude\":\"2.64343323\",\"nbr_place\":\"100\",\"place_dispo\":\"56\"},{\"id\":\"2\",\"nom\":\"Parking LECLERC\",\"ref\":\"0000002\",\"longitude\":\"48.3455456\",\"latitude\":\"2.75454543\",\"nbr_place\":\"90\",\"place_dispo\":\"13\"},{\"id\":\"3\",\"nom\":\"Parking CARREFOUR\",\"ref\":\"0000003\",\"longitude\":\"48.4455456\",\"latitude\":\"2.65454543\",\"nbr_place\":\"94\",\"place_dispo\":\"23\"}]}";
     @Override
@@ -47,7 +48,10 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
         paking = (EditText) findViewById(R.id.park);
         logout = (ImageView) findViewById(R.id.disconnect);
         logout.setOnClickListener(this);
+        userid = getIntent().getExtras().getString("iduser");
         name.setText("Bienvenu " + getIntent().getExtras().getString("user"));
+        Toast.makeText(Dashboard.this,"user = " + userid,Toast.LENGTH_LONG).show();
+
         parkingList = new ArrayList<>();
 
         listv = (ListView) findViewById(R.id.list);
@@ -62,6 +66,7 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
 
                 Toast.makeText(Dashboard.this,position + " " + id + "  " + parkId,Toast.LENGTH_LONG).show();
                 Intent place = new Intent(Dashboard.this, Reservation.class);
+                place.putExtra("userid", userid);
                 place.putExtra("id", parkId);
                 startActivity(place);
 

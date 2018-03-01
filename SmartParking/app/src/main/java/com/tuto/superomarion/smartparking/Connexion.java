@@ -6,10 +6,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.text.InputType;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -34,7 +32,6 @@ public class Connexion extends AppCompatActivity implements View.OnClickListener
     private Button btnNew;
     private EditText name;
     private EditText pass;
-    private CheckBox show;
     private Boolean logged = false;
     private String nom = "";
     private String passw = "";
@@ -46,13 +43,13 @@ public class Connexion extends AppCompatActivity implements View.OnClickListener
         setContentView(R.layout.activity_connexion);
         name = (EditText) findViewById(R.id.name);
         pass = (EditText) findViewById(R.id.password);
-        show = (CheckBox) findViewById(R.id.show);
+
         btnConnect = (Button) findViewById(R.id.login);
         btnNew = (Button) findViewById(R.id.signup);
 
         btnConnect.setOnClickListener(this);
         btnNew.setOnClickListener(this);
-        show.setOnClickListener(this);
+
 
         if(ConnexionInternet.isConnectedInternet(Connexion.this)){
             readnConnect();
@@ -102,14 +99,6 @@ public class Connexion extends AppCompatActivity implements View.OnClickListener
                 startActivity(myIn);
                 break;
 
-            case R.id.show:
-                if(show.isChecked()){
-                    pass.setInputType(InputType.TYPE_CLASS_TEXT);
-
-                }else{
-                    pass.setInputType(InputType.TYPE_CLASS_TEXT|InputType.TYPE_TEXT_VARIATION_PASSWORD);
-                }
-                break;
 
         }
 
@@ -189,14 +178,17 @@ public class Connexion extends AppCompatActivity implements View.OnClickListener
                         logged = true;
                         saveContact();
                         String role = jsonResponse.getString("role");
+                        String iduser = jsonResponse.getString("id");
                         if(role.equals("1")){
 
                             Intent intent = new Intent(Connexion.this, Dashboard.class);
+                            intent.putExtra("iduser", iduser);
                             intent.putExtra("user", nom);
                             startActivity(intent);
 
                         }else if(role.equals("2")){
                             Intent intent = new Intent(Connexion.this, Gestionnaire.class);
+                            intent.putExtra("iduser", iduser);
                             intent.putExtra("user", nom);
                             startActivity(intent);
                         }

@@ -126,9 +126,11 @@ public class Inscription extends AppCompatActivity implements View.OnClickListen
                     JSONObject jsonResponse = new JSONObject(response);
                     boolean success = jsonResponse.getBoolean("success");
                     if (success) {
+                        String iduser = jsonResponse.getString("id");
                         progressDialog.dismiss();
                         logged = true;
                         Intent intent = new Intent(Inscription.this, Dashboard.class);
+                        intent.putExtra("iduser", iduser);
                         intent.putExtra("user", iden);
                         startActivity(intent);
                         finish();

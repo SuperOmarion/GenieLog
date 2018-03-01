@@ -29,11 +29,14 @@ public class Reservation extends AppCompatActivity  {
     private ListView listv;
     private ProgressDialog progressDialog;
     private boolean get = false;
+    private String userid;
     ArrayList<HashMap<String, String>> placeList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reservation);
+        userid = getIntent().getExtras().getString("iduser");
+        Toast.makeText(Reservation.this,"user = " + userid,Toast.LENGTH_LONG).show();
         id_park = getIntent().getExtras().getString("id");
         placeList = new ArrayList<>();
         listv = (ListView) findViewById(R.id.list);
@@ -48,6 +51,7 @@ public class Reservation extends AppCompatActivity  {
 
                 Toast.makeText(Reservation.this,position + " " + id + "  " + placeId,Toast.LENGTH_LONG).show();
                 Intent place = new Intent(Reservation.this, Validation.class);
+                place.putExtra("userid", userid);
                 place.putExtra("parkid", id_park);
                 place.putExtra("placeid", placeId);
                 startActivity(place);
