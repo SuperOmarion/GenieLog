@@ -8,13 +8,13 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -35,6 +35,7 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
     private ImageView logout;
     private String Storage = "data";
     private ListView listv;
+    private Button reservation;
     private ProgressDialog progressDialog;
     private boolean get = false;
     private String userid;
@@ -47,10 +48,12 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
         name = (TextView) findViewById(R.id.user);
         paking = (EditText) findViewById(R.id.park);
         logout = (ImageView) findViewById(R.id.disconnect);
+        reservation = (Button) findViewById(R.id.reserveration);
+        reservation.setOnClickListener(this);
         logout.setOnClickListener(this);
         userid = getIntent().getExtras().getString("iduser");
-        name.setText("Bienvenu " + getIntent().getExtras().getString("user"));
-        Toast.makeText(Dashboard.this,"user = " + userid,Toast.LENGTH_LONG).show();
+        name.setText("Bienvenue " + getIntent().getExtras().getString("user"));
+       // Toast.makeText(Dashboard.this,"user = " + userid,Toast.LENGTH_LONG).show();
 
         parkingList = new ArrayList<>();
 
@@ -63,10 +66,8 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
                 String[] item =  parent.getAdapter().getItem(position).toString().split(",");
                 String[] selected = item[2].split("=");
                 String parkId = selected[1];
-
-                Toast.makeText(Dashboard.this,position + " " + id + "  " + parkId,Toast.LENGTH_LONG).show();
                 Intent place = new Intent(Dashboard.this, Reservation.class);
-                place.putExtra("userid", userid);
+                place.putExtra("iduser", userid);
                 place.putExtra("id", parkId);
                 startActivity(place);
 
@@ -89,7 +90,6 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
 
                     public void onClick(DialogInterface arg0, int arg1) {
                         moveTaskToBack(true);
-                        finish();
                         System.exit(0);
                     }
                 }).create().show();
@@ -107,19 +107,26 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
                         .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
 
                             public void onClick(DialogInterface arg0, int arg1) {
-                                Toast.makeText(Dashboard.this,"deconnexion",Toast.LENGTH_LONG).show();
+                               // Toast.makeText(Dashboard.this,"deconnexion",Toast.LENGTH_LONG).show();
                                 deleteContact();
                                 Intent connect = new Intent(Dashboard.this,Connexion.class);
                                 startActivity(connect);
-                                finish();
+
 
                             }
                         }).create().show();
 
                 break;
+            case R.id.reserveration:
+                Intent I = new Intent(Dashboard.this, MesReservations.class);
+                I.putExtra("iduser", userid);
+                startActivity(I);
+                break;
         }
 
     }
+
+
 
     public void deleteContact() {
         try {
@@ -141,48 +148,52 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
             JSONArray parkings = jsonObj.getJSONArray("parkings");
 
             // looping through All Contacts
-            for (int i = 0; i < parkings.length(); i++) {
-                JSONObject c = parkings.getJSONObject(i);
+            if(parkings.length()>0) {
+                for (int i = 0; i < parkings.length(); i++) {
+                    JSONObject c = parkings.getJSONObject(i);
 
-                String id = c.getString("id");
-                String name = c.getString("nom");
-                String ref = c.getString("ref");
-                String nbr_place = c.getString("nbr_place");
-                String url = c.getString("url");
+                    String id = c.getString("id");
+                    String name = c.getString("nom");
+                    String ref = c.getString("ref");
+                    String place_dispo = c.getString("place_dispo");
+                    String url = c.getString("url");
 
 
+                    HashMap<String, String> parking = new HashMap<>();
 
-                HashMap<String, String> parking = new HashMap<>();
+                    // adding each child node to HashMap key => value
+                    parking.put("id", id);
+                    parking.put("nom", name);
+                    parking.put("ref", ref);
+                    parking.put("url", url);
+                    parking.put("place_dispo", place_dispo);
 
-                // adding each child node to HashMap key => value
-                parking.put("id", id);
-                parking.put("nom", name);
-                parking.put("ref", ref);
-                parking.put("url",url);
-                parking.put("nbr_place", nbr_place);
+                    // adding contact to contact list
+                    parkingList.add(parking);
+                }
+            }else{
+                AlertDialog.Builder builder = new AlertDialog.Builder(Dashboard.this);
+                builder.setMessage("Vous n'avez aucune réservation")
+                        .setNegativeButton("OK", null)
+                        .create()
+                        .show();
 
-                // adding contact to contact list
-                parkingList.add(parking);
             }
 
             ListAdapter adapter = new SimpleAdapter(
                     Dashboard.this, parkingList,
                     R.layout.list_item, new String[]{"url","nom",
-                    "nbr_place","ref"}, new int[]{R.id.img,R.id.name,
+                    "place_dispo","ref"}, new int[]{R.id.img,R.id.name,
                     R.id.place, R.id.distance});
 
             listv.setAdapter(adapter);
         } catch (final JSONException e) {
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    Toast.makeText(getApplicationContext(),
-                            "Json parsing error: " + e.getMessage(),
-                            Toast.LENGTH_LONG)
-                            .show();
+            AlertDialog.Builder builder = new AlertDialog.Builder(Dashboard.this);
+            builder.setMessage("Vous n'avez aucune réservation")
+                    .setNegativeButton("OK", null)
+                    .create()
+                    .show();
 
-                }
-            });
 
         }
     }
@@ -222,7 +233,7 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
         ParkingRequest parkingRequest = new ParkingRequest("1",responseListener);
         final RequestQueue queue = Volley.newRequestQueue(Dashboard.this);
         queue.add(parkingRequest);
-        Toast.makeText(Dashboard.this,"queu",Toast.LENGTH_LONG).show();
+       // Toast.makeText(Dashboard.this,"queu",Toast.LENGTH_LONG).show();
 
         new android.os.Handler().postDelayed(
                 new Runnable() {

@@ -96,7 +96,7 @@
         </RelativeLayout>
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/reserveration"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="14dp"
@@ -104,7 +104,7 @@
             android:textSize="20dp"
             android:textStyle="bold"
             android:textColor="#FFF"
-            android:text="Mes reservation"
+            android:text="Mes reservations"
             android:layout_below="@+id/relativeLayout"
             android:layout_centerHorizontal="true" />
 

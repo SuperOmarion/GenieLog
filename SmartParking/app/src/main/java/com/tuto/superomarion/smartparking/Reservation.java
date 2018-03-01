@@ -36,7 +36,7 @@ public class Reservation extends AppCompatActivity  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reservation);
         userid = getIntent().getExtras().getString("iduser");
-        Toast.makeText(Reservation.this,"user = " + userid,Toast.LENGTH_LONG).show();
+       // Toast.makeText(Reservation.this,"user = " + userid,Toast.LENGTH_LONG).show();
         id_park = getIntent().getExtras().getString("id");
         placeList = new ArrayList<>();
         listv = (ListView) findViewById(R.id.list);
@@ -49,9 +49,9 @@ public class Reservation extends AppCompatActivity  {
                 String[] selected = item[item.length - 1].split("=");
                 String placeId = selected[1].replace("}","");
 
-                Toast.makeText(Reservation.this,position + " " + id + "  " + placeId,Toast.LENGTH_LONG).show();
+               // Toast.makeText(Reservation.this,position + " " + id + "  " + placeId,Toast.LENGTH_LONG).show();
                 Intent place = new Intent(Reservation.this, Validation.class);
-                place.putExtra("userid", userid);
+                place.putExtra("iduser", userid);
                 place.putExtra("parkid", id_park);
                 place.putExtra("placeid", placeId);
                 startActivity(place);
@@ -61,11 +61,8 @@ public class Reservation extends AppCompatActivity  {
         });
     }
 
-    @Override
-    public void onBackPressed() {
-        Intent I = new Intent(Reservation.this,Dashboard.class);
-        startActivity(I);
-    }
+
+
 
     public void getJson(JSONObject jsonObj){
         try {
@@ -166,7 +163,7 @@ public class Reservation extends AppCompatActivity  {
         PlaceRequest placeRequest = new PlaceRequest(id_park,responseListener);
         final RequestQueue queue = Volley.newRequestQueue(Reservation.this);
         queue.add(placeRequest);
-        Toast.makeText(Reservation.this,"queu",Toast.LENGTH_LONG).show();
+       // Toast.makeText(Reservation.this,"queu",Toast.LENGTH_LONG).show();
         new android.os.Handler().postDelayed(
                 new Runnable() {
                     public void run() {

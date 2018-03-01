@@ -214,7 +214,7 @@ public class Connexion extends AppCompatActivity implements View.OnClickListener
         ConnectionRequest connectionRequest = new ConnectionRequest(nom,passw,responseListener);
         final RequestQueue queue = Volley.newRequestQueue(Connexion.this);
         queue.add(connectionRequest);
-       // Toast.makeText(getBaseContext(), "Verifiez  " + nom +""+ passw , Toast.LENGTH_LONG).show();
+
         new android.os.Handler().postDelayed(
                 new Runnable() {
                     public void run() {

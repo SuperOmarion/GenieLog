@@ -2,6 +2,8 @@ package com.tuto.superomarion.smartparking;
 
 import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.icu.util.Calendar;
 import android.os.Build;
 import android.os.Bundle;
@@ -41,10 +43,10 @@ public class Validation extends AppCompatActivity implements View.OnClickListene
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_validation);
         id = (TextView) findViewById(R.id.idplace);
-        id_user = getIntent().getExtras().getString("userid");
+        id_user = getIntent().getExtras().getString("iduser");
         id_parking = getIntent().getExtras().getString("parkid");
         id_place = getIntent().getExtras().getString("placeid");
-        Toast.makeText(Validation.this,"user = " + id_user,Toast.LENGTH_LONG).show();
+      //  Toast.makeText(Validation.this,"user = " + id_user,Toast.LENGTH_LONG).show();
         id.setText("Place : " + id_place + "  Parking : " + id_parking);
         timeend = (EditText) findViewById(R.id.timeend);
         timestart = (EditText) findViewById(R.id.timebegin);
@@ -94,7 +96,7 @@ public class Validation extends AppCompatActivity implements View.OnClickListene
                             heureF += selectedMinute < 10 ? "0"+Integer.toString(selectedMinute)+":00" :  Integer.toString(selectedMinute)+":00";
                             timeend.setText(heureF);
                         }
-                    }, hour1, minute1, false);
+                    }, hour1, minute1, true);
                     mTimePicker1.setTitle("Selectionnez l'heure");
 
 
@@ -130,13 +132,12 @@ public class Validation extends AppCompatActivity implements View.OnClickListene
 
                         progressDialog.dismiss();
                         gare = true;
+                        if(jsonResponse.getString("operation").equals("garage")){
+                            reponseGarage();
+                        }
 
                     } else {
-                        AlertDialog.Builder builder = new AlertDialog.Builder(Validation.this);
-                        builder.setMessage("Le compte n'existe pas\nVotre Nom ou Mot de passe est incorrecte")
-                                .setNegativeButton("Retry", null)
-                                .create()
-                                .show();
+
                         progressDialog.dismiss();
                     }
                 } catch (JSONException e) {
@@ -145,7 +146,7 @@ public class Validation extends AppCompatActivity implements View.OnClickListene
             }
         };
 
-        GarerRequest garerRequest = new GarerRequest("1",responseListener);
+        GarerRequest garerRequest = new GarerRequest(id_user,id_parking,id_place,responseListener);
         final RequestQueue queue = Volley.newRequestQueue(Validation.this);
         queue.add(garerRequest);
 
@@ -185,15 +186,12 @@ public class Validation extends AppCompatActivity implements View.OnClickListene
                         progressDialog.dismiss();
                         reserve = true;
 
-                        String role = jsonResponse.getString("role");
+                        if(jsonResponse.getString("operation").equals("reservation")){
+                            reponseReservation();
+                        }
 
                     } else {
 
-                        AlertDialog.Builder builder = new AlertDialog.Builder(Validation.this);
-                        builder.setMessage("Le compte n'existe pas\nVotre Nom ou Mot de passe est incorrecte")
-                                .setNegativeButton("Retry", null)
-                                .create()
-                                .show();
                         progressDialog.dismiss();
                     }
                 } catch (JSONException e) {
@@ -221,4 +219,33 @@ public class Validation extends AppCompatActivity implements View.OnClickListene
                     }
                 }, 15000);
     }
+
+    private void reponseGarage(){
+        new AlertDialog.Builder(this)
+                .setTitle("Garage")
+                .setMessage("Votre operation à été pris en compte")
+                .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        Intent connect = new Intent(Validation.this,Dashboard.class);
+                        startActivity(connect);
+                    }
+                }).create().show();
+    }
+
+    private void reponseReservation(){
+        new AlertDialog.Builder(this)
+                .setTitle("Résérvation")
+                .setMessage("La place vous à été résérvée \n" + "Rendez vous à "+ heureS)
+                .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        Intent connect = new Intent(Validation.this,Dashboard.class);
+                        startActivity(connect);
+
+
+                    }
+                }).create().show();
+    }
+
 }

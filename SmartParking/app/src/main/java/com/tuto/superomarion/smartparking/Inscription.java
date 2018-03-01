@@ -58,7 +58,7 @@ public class Inscription extends AppCompatActivity implements View.OnClickListen
             String Contact = nom.getText().toString().trim().toLowerCase()+"/"+pass.getText().toString().trim();
             fos.write(Contact.getBytes());
             fos.close();
-            Toast.makeText(Inscription.this,Contact,Toast.LENGTH_LONG).show();
+           // Toast.makeText(Inscription.this,Contact,Toast.LENGTH_LONG).show();
         } catch (java.io.IOException e) {
             e.printStackTrace();
         }
